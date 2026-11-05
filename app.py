@@ -1,11 +1,15 @@
-from flask import Flask
+from flask import Flask, render_template
+from models import get_tasks
 
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='./templates')
 
 @app.route('/') #https://my-site.com
-def greeting():
-    return 'Hello Worl'
+def index():
+    tasks=get_tasks()
+    return render_template('index.html')
+
+
 
 if __name__=='__main__':
     app.run(debug=True)
