@@ -23,4 +23,4 @@ create table (
     category_id integer not null references categories(id),
     priority_id integer not null references priorities(id),
     status_id integer not null references statutes(id)
-)
+);
