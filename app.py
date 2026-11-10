@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, abort
 
-from models.tasks import list_tasks, get_task, create_task, update_task
+from models.tasks import list_tasks, get_task, create_task, update_task, delete_task
 from models.categories import list_categories
 from models.priorities import list_priorities
 from models.statutes import list_statuses
@@ -30,6 +30,9 @@ def read_form() -> dict:
         "status_id": request.form.get("status_id", ""),
     }
 
+@app.route('/')
+def welcome_page():
+    return render_template('welcome_page.html')
 
 @app.route('/tasks')  # https://localhost:500/tasks
 def index():
@@ -40,7 +43,6 @@ def index():
 @app.route('/tasks/<int:task_id>')  # https://localhost:500/tasks/3
 def detail(task_id: int):
     task = get_task(task_id)
-    print(task)
     return render_template('detail.html', task=task)
 
 
@@ -90,5 +92,25 @@ def edit(task_id: int):
     return render_template('form.html', task=task, error=error,
                            categories=category_list, priorities=priority_list, statuses=status_list)
 
+@app.route('/tasks/<int:task_id>/delete', methods=['POST'])
+def delete(task_id):
+    task = get_task(task_id)
+    if not task:
+        abort(404)
+
+    delete_task(task_id)
+    return redirect(url_for('index'))
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('errors/404.html'), 404
+
+
+@app.errorhandler(500)
+def server_error(error):
+    return render_template('errors/500.html'), 500
+
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(port=5001)
