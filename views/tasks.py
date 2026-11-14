@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, url_for, abort, Blueprint
 from models.tasks import list_tasks, get_task, create_task, update_task, delete_task
 from models.categories import list_categories
 from models.priorities import list_priorities
-from models.statutes import list_statutes
+from models.statutes import list_statuses
 from views.helpers import read_form, validate_task
 
 tasks_bp = Blueprint('tasks_bp', __name__, template_folder='../templates')
@@ -25,7 +25,7 @@ def detail(task_id: int):
 def create():
     category_list = list_categories()
     priority_list = list_priorities()
-    status_list = list_statutes()
+    status_list = list_statuses()
     task = {"title": "", "description": "", "category_id": "", "priority_id": "", "status_id": ""}
     error = ''
 
@@ -53,7 +53,7 @@ def edit(task_id: int):
 
     category_list = list_categories()
     priority_list = list_priorities()
-    status_list = list_statutes()
+    status_list = list_statuses()
     error = ''
 
     if request.method == 'POST':
