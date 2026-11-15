@@ -1,9 +1,11 @@
 from flask import Flask, render_template
 
+from views.categories import categories_bp
 from views.tasks import tasks_bp
 
 app = Flask(__name__, template_folder='./templates')
 app.register_blueprint(tasks_bp)
+app.register_blueprint(categories_bp)
 
 
 @app.route('/')

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ heading }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>{{ heading }}</h1>
+  <p><a href="{{ url_for('categories_bp.index') }}">К списку категорий</a></p>
+  {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+  <form method="post">
+    <p>
+      <label for="name">Название</label><br>
+      <input id="name" name="name" value="{{ category.name }}" required>
+    </p>
+    <button type="submit">Сохранить</button>
+  </form>
+</body>
+</html>

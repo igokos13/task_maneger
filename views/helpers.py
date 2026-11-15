@@ -22,3 +22,17 @@ def read_form() -> dict:
         "priority_id": request.form.get("priority_id", ""),
         "status_id": request.form.get("status_id", ""),
     }
+
+def read_category_form() -> dict:
+    return {"name": request.form.get("name", "").strip()}
+
+
+def validate_category(category: dict, category_list: list[dict], category_id: int | None = None) -> str:
+    name = category["name"]
+    if not name:
+        return "Введите название категории."
+    for other in category_list:
+        # при редактировании саму категорию с дублем не считаем
+        if other["id"] != category_id and other["name"].lower() == name.lower():
+            return "Такая категория уже есть."
+    return ""
