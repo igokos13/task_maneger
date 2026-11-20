@@ -55,8 +55,18 @@ def create_task(task: dict) -> int:
 
 
 def update_task(task_id: int, task: dict) -> None:
-    """Homework"""
+    with Session(get_engine()) as session, session.begin():
+        db_task = session.get(Task, task_id)  # находим задачу по id
+        if db_task is not None:
+            db_task.title = task["title"]
+            db_task.description = task["description"]
+            db_task.category_id = int(task["category_id"])
+            db_task.priority_id = int(task["priority_id"])
+            db_task.status_id = int(task["status_id"])
 
 
 def delete_task(task_id: int) -> None:
-    """Homework"""
+    with Session(get_engine()) as session, session.begin():
+        db_task = session.get(Task, task_id)  # находим задачу по id
+        if db_task is not None:
+            session.delete(db_task)
